@@ -1,0 +1,131 @@
+sqlite3
+.help
+.exit
+
+** config
+.show 
+
+** creat - open **
+sqlite3 test.db
+
+** backup 
+sqlite3 test.db .dump> test.sql
+
+** cover
+sqlite3 test.db < test.sql
+
+*** ATTACH DATABASE **
+ATTACH DATABASE 'test.db' as 'TEST';   
+
+**  DETACH **
+DETACH DATABASE 'TEST'; 
+
+** create **
+ CREATE TABLE COMPANY (
+   ID INT PRIMARY KEY NOT NULL,
+   NAME TEXT NOT NULL,
+   AGE INT NOT NULL,
+   ADDRESS CHAR (50),
+   SALARY REAL
+);
+
+.schema COMPANY
+.tables     
+DROP TABLE COMPANY; 
+
+select * from COMPANY; 
+.header on
+.mode column
+
+*** column width
+.width 10, 20, 10
+
+** get table name *
+SELECT tbl_name FROM sqlite_master WHERE type = 'table';
+
+
+** date
+SELECT CURRENT_TIMESTAMP;
+SELECT date ( 'now');
+SELECT time ('12:00','utc');
+SELECT time ('12:00','localtime');  
+SELECT time ('now','localtime');  
+SELECT datetime('now','localtime');
+
+.mode line
+select 10+50;
+
+UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
+SELECT * FROM COMPANY WHERE AGE LIKE '2%';
+SELECT * FROM COMPANY LIMIT 3;
+SELECT NAME, SUM (SALARY) FROM COMPANY GROUP BY NAME;
+select * from COMPANY a; 
+
+SELECT *  FROM COMPANY 
+WHERE ID IN (SELECT ID  FROM COMPANY WHERE SALARY> 45000);
+
+** NULL
+UPDATE COMPANY SET ADDRESS = NULL, SALARY = NULL where ID IN (6,7);
+SELECT ID, NAME, AGE, ADDRESS, SALARY FROM COMPANY WHERE SALARY IS NULL;
+
+** TRANSACTION
+sqlite> BEGIN;
+sqlite> DELETE FROM COMPANY WHERE AGE = 25;
+sqlite> ROLLBACK;
+
+** auto number
+sqlite> CREATE TABLE COMPANY (
+   ID INTEGER PRIMARY KEY AUTOINCREMENT,
+   NAME TEXT NOT NULL,
+   AGE INT NOT NULL,
+   ADDRESS CHAR (50),
+   SALARY REAL
+);
+
+EXPLAIN SELECT * FROM COMPANY ;   
+http://www.w3big.com/sqlite/sqlite-functions.html  
+http://www.w3big.com/sqlite/sqlite-date-time.html
+
+*** insert auto number
+INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY)
+VALUES ( 'Paul', 32, 'California', 20000.00);
+
+INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY)
+VALUES ( 'Allen', 25, 'Texas', 15000.00);
+
+INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY)
+VALUES ( 'Teddy', 23, 'Norway', 20000.00);
+
+INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY)
+VALUES ( 'Mark', 25, 'Rich-Mond', 65000.00);
+
+INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY)
+VALUES ( 'David', 27, 'Texas', 85000.00);
+
+
+INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY)
+VALUES ( 'Kim', 22, 'South-Hall', 45000.00);
+
+INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY)
+VALUES ( 'James', 24, 'Houston', 10000.00);
+
+*** insert 
+INSERT INTO COMPANY (ID, NAME, AGE, ADDRESS, SALARY)
+VALUES (1, 'Paul', 32, 'California', 20000.00);
+
+INSERT INTO COMPANY (ID, NAME, AGE, ADDRESS, SALARY)
+VALUES (2, 'Allen', 25, 'Texas', 15000.00);
+
+INSERT INTO COMPANY (ID, NAME, AGE, ADDRESS, SALARY)
+VALUES (3, 'Teddy', 23, 'Norway', 20000.00);
+
+INSERT INTO COMPANY (ID, NAME, AGE, ADDRESS, SALARY)
+VALUES (4, 'Mark', 25, 'Rich-Mond', 65000.00);
+
+INSERT INTO COMPANY (ID, NAME, AGE, ADDRESS, SALARY)
+VALUES (5, 'David', 27, 'Texas', 85000.00);
+
+INSERT INTO COMPANY (ID, NAME, AGE, ADDRESS, SALARY)
+VALUES (6, 'Kim', 22, 'South-Hall', 45000.00);
+
+
